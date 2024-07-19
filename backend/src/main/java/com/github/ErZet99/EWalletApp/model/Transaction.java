@@ -1,23 +1,38 @@
 package com.github.ErZet99.EWalletApp.model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
 public class Transaction {
+    @Id
     private Long id;
-    private Wallet senderWallet;
-    private Wallet receiverWallet;
-    private Type type;
+
+    @Column(nullable = false)
     private BigDecimal amount;
+
+    @Column(length = 50)
     private String description;
-    private Instant date;
-    private String referenceNumber;
+
+    @Column(nullable = false)
+    private Instant createdAt;
+
+    @Column(nullable = false, unique = true)
+    private UUID referenceNumber;
+
+    @Column(length = 20, nullable = false)
+    @Enumerated(EnumType.STRING)
     private Status status;
+
+
+    private Wallet fromWallet;
+    private Wallet toWallet;
+    private Type type;
 }
